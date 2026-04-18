@@ -1,11 +1,11 @@
 # Hello, World
 
-**[You can find all the code for this chapter here](https://github.com/quii/learn-go-with-tests/tree/main/hello-world)**
+**[Весь код из этого раздела находится здесь](https://github.com/quii/learn-go-with-tests/tree/main/hello-world)**
 
-It is traditional for your first program in a new language to be [Hello, World](https://en.m.wikipedia.org/wiki/%22Hello,_World!%22_program).
+По традиции для первой программы на новом языке  выбирают [Hello, World](https://en.m.wikipedia.org/wiki/%22Hello,_World!%22_program).
 
-- Create a folder wherever you like
-- Put a new file in it called `hello.go` and put the following code inside it
+- Создайте папку в любом удобном месте
+- Создайте в папке новый файл и назовите его `hello.go` и перенесите в него следующий код
 
 ```go
 package main
@@ -17,15 +17,15 @@ func main() {
 }
 ```
 
-To run it, type `go run hello.go`.
+Для запуска используйте команду `go run hello.go`.
 
-## How it works
+## Как это работает
 
-When you write a program in Go, you will have a `main` package defined with a `main` func inside it. Packages are ways of grouping up related Go code together.
+Когда вы пишите программу на языке Go, у вас будет пакет `main` с функцией `main` внутри. Пакеты - это способ сгруппировать общий по смыслу код вместе.
 
-The `func` keyword defines a function with a name and a body.
+Ключевое слово `func` определяет функцию с именем и телом.
 
-With `import "fmt"` we are importing a package which contains the `Println` function that we use to print.
+С помощью `import "fmt"` мы добавляем пакет, который содержит функцию `Println`, которую мы используем для печати.
 
 ## How to test
 
