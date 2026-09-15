@@ -47,9 +47,9 @@ func main() {
 }
 ```
 
-We have created a new function with `func`, but this time, we've added another keyword, `string,` to the definition. This means this function returns a `string`.
+Мы создали новую функцию с помощью `func`, но на этот раз добавили в определение ещё одно ключевое слово — `string`. Это означает, что данная функция возвращает `строку`.
 
-Now create a new file called `hello_test.go` where we are going to write a test for our `Hello` function
+Теперь создайте новый файл с именем `hello_test.go`, в котором мы напишем тест для нашей функции `Hello`.
 
 ```go
 package main
@@ -66,16 +66,16 @@ func TestHello(t *testing.T) {
 }
 ```
 
-## Go modules?
+Модули Go?
 
-The next step is to run the tests. Enter `go test` in your terminal. If the tests pass, then you are probably using an earlier version of Go. However, if you are using Go 1.16 or later, the tests will likely not run. Instead, you will see an error message like this in the terminal:
+Следующий шаг — запустить тесты. Введите `go test` в терминале. Если тесты проходят, то вы, вероятно, используете более раннюю версию Go. Однако, если вы используете Go 1.16 или более позднюю версию, тесты, скорее всего, не запустятся. Вместо этого вы увидите в терминале сообщение об ошибке примерно такого вида:
 
 ```shell
 $ go test
 go: cannot find main module; see 'go help modules'
 ```
 
-What's the problem? In a word, [modules](https://blog.golang.org/go116-module-changes). Luckily, the problem is easy to fix. Enter `go mod init example.com/hello` in your terminal. That will create a new file with the following contents:
+В чём проблема? Одним словом — [модули](https://blog.golang.org/go116-module-changes). К счастью, проблема легко исправляется. Введите `go mod init example.com/hello` в терминале. Это создаст новый файл со следующим содержимым:
 
 ```
 module example.com/hello
@@ -83,9 +83,9 @@ module example.com/hello
 go 1.16
 ```
 
-This file tells the `go` tools essential information about your code. If you planned to distribute your application, you would include where the code was available for download as well as information about dependencies.  The name of the module, example\.com\/hello, usually refers to a URL where the module can be found and downloaded. For compatibility with tools we'll start using soon, make sure your module's name has a dot somewhere in it, like the dot in .com of example\.com/hello. For now, your module file is minimal, and you can leave it that way. To read more about modules, [you can check out the reference in the Golang documentation](https://golang.org/doc/modules/gomod-ref). We can get back to testing and learning Go now since the tests should run, even on Go 1.16.
+Этот файл сообщает инструментам `go` основную информацию о вашем коде. Если бы вы планировали распространять своё приложение, вы бы указали, где код доступен для загрузки, а также информацию о зависимостях. Имя модуля, example\.com\/hello, обычно ссылается на URL, по которому модуль можно найти и загрузить. Для совместимости с инструментами, которые мы вскоре начнём использовать, убедитесь, что в имени вашего модуля где-нибудь есть точка — как точка в .com в example\.com\/hello. Пока что ваш файл модуля минимален, и вы можете оставить его таким. Чтобы узнать больше о модулях, [можно обратиться к справочнику в документации Golang](https://golang.org/doc/modules/gomod-ref). Теперь мы можем вернуться к тестированию и изучению Go, поскольку тесты должны запускаться даже на Go 1.16.
 
-In future chapters, you will need to run `go mod init SOMENAME` in each new folder before running commands like `go test` or `go build`.
+В последующих главах вам нужно будет выполнять `go mod init SOMENAME` в каждой новой папке перед запуском таких команд, как `go test` или `go build`.
 
 ## Back to Testing
 
