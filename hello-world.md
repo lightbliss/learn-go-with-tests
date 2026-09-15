@@ -87,20 +87,20 @@ go 1.16
 
 В последующих главах вам нужно будет выполнять `go mod init SOMENAME` в каждой новой папке перед запуском таких команд, как `go test` или `go build`.
 
-## Back to Testing
+## Возвращаемся к тестированию
 
-Run `go test` in your terminal. It should've passed! Just to check, try deliberately breaking the test by changing the `want` string.
+Запустите `go test` в терминале. Тест должен был пройти! Чтобы убедиться, попробуйте намеренно сломать тест, изменив строку `want`.
 
-Notice how you have not had to pick between multiple testing frameworks and then figure out how to install them. Everything you need is built into the language, and the syntax is the same as the rest of the code you will write.
+Обратите внимание: вам не пришлось выбирать между несколькими фреймворками для тестирования, а затем разбираться с их установкой. Всё необходимое встроено в сам язык, а синтаксис совпадает с остальным кодом, который вы будете писать.
 
-### Writing tests
+### Написание тестов
 
-Writing a test is just like writing a function, with a few rules
+Написание теста — это почти то же самое, что и написание функции, но с несколькими правилами:
 
-* It needs to be in a file with a name like `xxx_test.go`
-* The test function must start with the word `Test`
-* The test function takes one argument only `t *testing.T`
-* To use the `*testing.T` type, you need to `import "testing"`, like we did with `fmt` in the other file
+* Он должен находиться в файле с именем вида `xxx_test.go`
+* Имя тестовой функции должно начинаться со слова `Test`
+* Тестовая функция принимает только один аргумент — `t *testing.T`
+* Чтобы использовать тип `*testing.T`, нужно импортировать пакет `"testing"`, как мы делали с `fmt` в другом файле
 
 For now, it's enough to know that your `t` of type `*testing.T` is your "hook" into the testing framework so you can do things like `t.Fail()` when you want to fail.
 
