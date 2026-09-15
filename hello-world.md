@@ -27,11 +27,11 @@ func main() {
 
 С помощью `import "fmt"` мы добавляем пакет, который содержит функцию `Println`, которую мы используем для печати.
 
-## How to test
+## Как протестировать
 
-How do you test this? It is good to separate your "domain" code from the outside world \(side-effects\). The `fmt.Println` is a side effect \(printing to stdout\), and the string we send in is our domain.
+Как это протестировать? Хорошей практикой является отделение «доменного» кода от внешнего мира (побочных эффектов). fmt.Println — это побочный эффект (вывод в stdout), а строка, которую мы передаём, — это наш домен.
 
-So let's separate these concerns so it's easier to test
+Итак, давайте разделим эти зоны ответственности, чтобы упростить тестирование.
 
 ```go
 package main
