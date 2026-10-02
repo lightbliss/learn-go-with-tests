@@ -102,30 +102,29 @@ go 1.16
 * Тестовая функция принимает только один аргумент — `t *testing.T`
 * Чтобы использовать тип `*testing.T`, нужно импортировать пакет `"testing"`, как мы делали с `fmt` в другом файле
 
-For now, it's enough to know that your `t` of type `*testing.T` is your "hook" into the testing framework so you can do things like `t.Fail()` when you want to fail.
+Пока достаточно знать, что ваш t типа *testing.T — это ваша «точка входа» во фреймворк тестирования, позволяющая делать такие вещи, как t.Fail(), когда вы хотите провалить тест.
 
-We've covered some new topics:
+Мы рассмотрели несколько новых тем:
 
 #### `if`
-If statements in Go are very much like other programming languages.
+Условные операторы `if` в Go очень похожи на аналогичные конструкции в других языках программирования.
 
-#### Declaring variables
+#### Объявление переменных
 
-We're declaring some variables with the syntax `varName := value`, which lets us reuse some values in our test for readability.
+Мы объявляем некоторые переменные с помощью синтаксиса `varName := value`, что позволяет переиспользовать значения в тесте для улучшения читаемости.
 
 #### `t.Errorf`
+Мы вызываем _метод_ `Errorf` у нашего `t`, который выведет сообщение и провалит тест. Буква `f` означает «format» (форматирование) — это позволяет строить строку с подстановкой значений в плейсхолдеры `%q`. Когда вы провалите тест, станет ясно, как это работает.
 
-We are calling the `Errorf` _method_ on our `t`, which will print out a message and fail the test. The `f` stands for format, which allows us to build a string with values inserted into the placeholder values `%q`. When you make the test fail, it should be clear how it works.
+Подробнее о строках-плейсхолдерах можно прочитать в [документации пакета fmt](https://pkg.go.dev/fmt#hdr-Printing). В тестах `%q` очень удобен, так как оборачивает ваши значения в двойные кавычки.
 
-You can read more about the placeholder strings in the [fmt documentation](https://pkg.go.dev/fmt#hdr-Printing). For tests, `%q` is very useful as it wraps your values in double quotes.
+Позже мы разберём разницу между методами и функциями.
 
-We will later explore the difference between methods and functions.
+### Документация Go
 
-### Go's documentation
+Ещё одна удобная возможность Go — это документация. Мы только что видели документацию пакета fmt на официальном сайте для просмотра пакетов, а Go также предоставляет способы быстро получать документацию офлайн.
 
-Another quality-of-life feature of Go is the documentation.  We just saw the documentation for the fmt package at the official package viewing website, and Go also provides ways for quickly getting at the documentation offline.
-
-Go has a built-in tool, doc, which lets you examine any package installed on your system, or the module you're currently working on. To view that same documentation for the Printing verbs:
+В Go есть встроенный инструмент doc, который позволяет изучать любой пакет, установленный в вашей системе, или модуль, над которым вы работаете сейчас. Чтобы посмотреть ту же документацию по глаголам форматирования:
 
 ```
 $ go doc fmt
@@ -148,20 +147,18 @@ General:
 ...
 ```
 
-Go's second tool for viewing documentation is the pkgsite command, which powers Go's official package viewing website.  You can install pkgsite with `go install golang.org/x/pkgsite/cmd/pkgsite@latest`, then run it with `pkgsite -open .`.  Go's install command will download the source files from that repository and build them into an executable binary.  For a default installation of Go, that executable will be in `$HOME/go/bin` for Linux and macOS, and `%USERPROFILE%\go\bin` for Windows.  If you have not already added those paths to your $PATH var, you might want to do so to make running go-installed commands easier.
+Второй инструмент Go для просмотра документации — команда `pkgsite`, на которой работает официальный сайт для просмотра пакетов Go. Установить pkgsite можно командой `go install golang.org/x/pkgsite/cmd/pkgsite@latest`, а затем запустить её с помощью `pkgsite -open .`. Команда install в Go скачает исходные файлы из этого репозитория и соберёт из них исполняемый бинарный файл. При установке Go по умолчанию этот исполняемый файл будет находиться в `$HOME/go/bin` для Linux и macOS и в `%USERPROFILE%\go\bin` для Windows. Если вы ещё не добавили эти пути в переменную $PATH, возможно, стоит это сделать, чтобы упростить запуск команд, установленных через go.
 
-The vast majority of the standard library has excellent documentation with examples. Navigating to [http://localhost:8080/testing](http://localhost:8080/testing) would be worthwhile to see what's available to you.
+Подавляющая часть стандартной библиотеки имеет превосходную документацию с примерами. Перейти по адресу [http://localhost:8080/testing](http://localhost:8080/testing) будет полезно, чтобы увидеть, что вам доступно.
 
+### Привет, ТЫ
+Теперь, когда у нас есть тест, мы можем безопасно дорабатывать наш код.
 
-### Hello, YOU
+В прошлом примере мы написали тест _после_ того, как код был написан, — чтобы вы могли увидеть пример того, как писать тест и объявлять функцию. С этого момента мы будем _писать тесты первыми_.
 
-Now that we have a test, we can iterate on our software safely.
+Наше следующее требование — дать возможность указывать получателя приветствия.
 
-In the last example, we wrote the test _after_ the code had been written so that you could get an example of how to write a test and declare a function. From this point on, we will be _writing tests first_.
-
-Our next requirement is to let us specify the recipient of the greeting.
-
-Let's start by capturing these requirements in a test. This is basic test-driven development and allows us to make sure our test is _actually_ testing what we want. When you retrospectively write tests, there is the risk that your test may continue to pass even if the code doesn't work as intended.
+Давайте начнём с того, что зафиксируем эти требования в тесте. Это базовый подход разработки через тестирование (TDD), и он позволяет убедиться, что наш тест _действительно_ проверяет то, что мы хотим. Когда вы пишете тесты задним числом, есть риск, что ваш тест будет продолжать проходить, даже если код работает не так, как задумано.
 
 ```go
 package main
@@ -178,7 +175,7 @@ func TestHello(t *testing.T) {
 }
 ```
 
-Now run `go test`, you should have a compilation error
+Теперь запустите `go test` — вы должны получить ошибку компиляции.
 
 ```text
 ./hello_test.go:6:18: too many arguments in call to Hello
@@ -186,11 +183,11 @@ Now run `go test`, you should have a compilation error
     want ()
 ```
 
-When using a statically typed language like Go it is important to _listen to the compiler_. The compiler understands how your code should snap together and work so you don't have to.
+При работе со статически типизированным языком, таким как Go, важно _слушать компилятор_. Компилятор понимает, как ваш код должен стыковаться и работать, — так что вам не нужно делать это самому.
 
-In this case the compiler is telling you what you need to do to continue. We have to change our function `Hello` to accept an argument.
+В данном случае компилятор сообщает вам, что нужно сделать, чтобы двигаться дальше. Нам нужно изменить нашу функцию `Hello`, чтобы она принимала аргумент.
 
-Edit the `Hello` function to accept an argument of type string
+Отредактируйте функцию `Hello`, чтобы она принимала аргумент типа `string`.
 
 ```go
 func Hello(name string) string {
@@ -198,7 +195,7 @@ func Hello(name string) string {
 }
 ```
 
-If you try and run your tests again your `hello.go` will fail to compile because you're not passing an argument. Send in "world" to make it compile.
+Если вы попробуете снова запустить тесты, ваш `hello.go` не скомпилируется, потому что вы не передаёте аргумент. Передайте "world", чтобы он скомпилировался.
 
 ```go
 func main() {
@@ -206,15 +203,15 @@ func main() {
 }
 ```
 
-Now when you run your tests, you should see something like
+Теперь, когда вы запустите тесты, вы должны увидеть что-то вроде
 
 ```text
 hello_test.go:10: got 'Hello, world' want 'Hello, Chris''
 ```
 
-We finally have a compiling program but it is not meeting our requirements according to the test.
+Наконец-то у нас есть компилирующаяся программа, но она не соответствует нашим требованиям согласно тесту.
 
-Let's make the test pass by using the name argument and concatenate it with `Hello,`
+Давайте заставим тест пройти, использовав аргумент с именем и сконкатенировав его с `Hello,`.
 
 ```go
 func Hello(name string) string {
@@ -222,27 +219,24 @@ func Hello(name string) string {
 }
 ```
 
-When you run the tests, they should now pass. Normally, as part of the TDD cycle, we should now _refactor_.
+Когда вы запустите тесты, они должны пройти. Обычно в рамках цикла TDD теперь нам следует заняться _рефакторингом_.
 
-### A note on source control
+### Замечание о системе контроля версий
 
-At this point, if you are using source control \(which you should!\) I would
-`commit` the code as it is. We have working software backed by a test.
+На данном этапе, если вы используете систему контроля версий \(а вы должны!\), я бы сделал `commit` кода в текущем виде. У нас есть работающее программное обеспечение, подкреплённое тестом.
 
-I _wouldn't_ push to main though, because I plan to refactor next. It is nice
-to commit at this point in case you somehow get into a mess with refactoring - you can always go back to the working version.
+Но я бы _не_ стал делать push в main, потому что планирую заняться рефакторингом дальше. Приятно сделать коммит на этом этапе на случай, если вы каким-то образом запутаетесь в процессе рефакторинга — вы всегда можете вернуться к рабочей версии.
 
-There's not a lot to refactor here, but we can introduce another language feature, _constants_.
+Рефакторить здесь особо нечего, но мы можем ввести ещё одну возможность языка — _константы_.
 
-### Constants
-
-Constants are defined like so
+### Константы
+Константы определяются так:
 
 ```go
 const englishHelloPrefix = "Hello, "
 ```
 
-We can now refactor our code
+Теперь мы можем отрефакторить наш код
 
 ```go
 const englishHelloPrefix = "Hello, "
